@@ -16,7 +16,7 @@ pipeline {
     stage('Build') {
       steps {  // no container directive is needed as the maven container is the default
         script {
-            sh ("build steps")
+            sh ("echo 'build steps'")
         }
       }
     }
