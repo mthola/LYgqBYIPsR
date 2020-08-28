@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod 
+spec:
+  containers:  # list of containers needed for building the service
+    - name: maven
+      image: maven:3.6.3-openjdk-14-slim
+      command: ["tail", "-f", "/dev/null"]  # Do not want to overrite the base command
+      imagePullPolicy: Always
+      resources:
+        requests:
+          memory: "2Gi"
+          cpu: "500m"
+        limits:
+          memory: "2Gi"
+    - name: docker
+      image: docker:18.09.9
+      command: ["tail", "-f", "/dev/null"]
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: docker
+          mountPath: /var/run/docker.sock # Host docker engine for building
+    - name: azure-cli
+      image: mcr.microsoft.com/azure-cli
+      command: ["tail", "-f", "/dev/null"]  # Do not want to overrite the base command
+      imagePullPolicy: Always
+      resources:
+        requests:
+          memory: "2Gi"
+          cpu: "500m"
+        limits:
+          memory: "2Gi"
+  imagePullSecrets:
+  - name: docker-config-secret
+  volumes:
+    - name: docker
+      hostPath:
+        path: /var/run/docker.sock
+
