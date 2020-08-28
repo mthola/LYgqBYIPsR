@@ -19,16 +19,6 @@ spec:
       volumeMounts:
         - name: docker
           mountPath: /var/run/docker.sock # Host docker engine for building
-    - name: azure-cli
-      image: mcr.microsoft.com/azure-cli
-      command: ["tail", "-f", "/dev/null"]  # Do not want to overrite the base command
-      imagePullPolicy: Always
-      resources:
-        requests:
-          memory: "2Gi"
-          cpu: "500m"
-        limits:
-          memory: "2Gi"
   imagePullSecrets:
   - name: docker-config-secret
   volumes:
